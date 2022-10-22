@@ -863,15 +863,15 @@ id_indels <- function(variant.calls, ref) {
 #' @param min.alt.freq Minimum frequency (0-1) for retaining alternate alleles. Default = 0.01. Extremely low values (i.e. zero) are not recommended here - see vignette for details.
 #' @param write.all.targets Logical that, if TRUE, reports sequencing depths for genomic positions associated with mutations of interest that are not observed in the sample, in addition to all mutations observed in the sample. If TRUE, requires columns "Chr" and "Pos" to be included in the *lineage.muts* file. Default FALSE.
 #' @param lineage.muts Path to optional csv file defining target mutations and their underlying genomic positions. Requires cols "Gene", "Mutation", "Lineage", "Chr" and "Pos". This is used to report the sequencing depths for relevant positions when the mutation of interest is not observed in the sample. See *write.all.targets*. This file is also used in `explore_mutations()`, where the "Chr" and "Pos" columns are optional. Only necessary here in conjunction with *write.all.targets*.  
-#' @param write.mut.table Logical indicating whether to write the 'samp_mutations' data frame (see "Value" below) to a text file (tsv). Default = FALSE. See *outfile.name*.
-#' @param outfile.name Path to file where (tsv) output will be written if *write.mut.table* is TRUE. Default: "sample_mutations.tsv" (written to working directory)
+#' @param write.mut.table Logical indicating whether to write the 'samp_mutations' data frame (see "Value" below) to a text file (csv). Default = FALSE. See *outfile.name*.
+#' @param outfile.name Path to file where (csv) output will be written if *write.mut.table* is TRUE. Default: "sample_mutations.csv" (written to working directory)
 #' @param name.sep Optional character in input file names that separates the unique sample identifier (characters preceeding the separator) from any additional text. Only text preceeding the first instance of the character will be retained and used as the sample name.
 #' @param genetic.code.num Number (character) associated with the genetic code to be used for translation. Details can be found at https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi.
 #' @param out.cols Character vector with names of columns to be returned. Choose from: CHR, POS, REF_BASE, GENE, STRAND, REF_CODON, REF_AA, GENE_AA_POS, REF_IDENT, REF, ALT, AF, ALT_COUNT, SAMP_CODON, SAMP_AA, ALT_ID, DP, SAMP_NAME, TYPE. The default columns SAMP_NAME, CHR, POS, ALT_ID, AF, DP must be included to run explore_mutations().
 #' @param indel.format Defines the naming convention for indels. Default is "Fwd", meaning the name would look like S_del144/144. "Rev" switches this to S_144/144del.
 #' @param csv.infiles Logical to indicate whether files in *sample.dir* directory are in vcf or csv format. All files must be of the same format. If csv, they must contain columns named: "CHR"	"POS"	"REF"	"ALT"	"DP"	"ALT_COUNT". See the `batch_vcf_to_mixvir()`` function to convert vcfs to csv format). Default is FALSE (input is in vcf format). This exists primarily for legacy reasons.
 #' @keywords mutation
-#' @return A data frame containing variants observed for each sample, positions of the underlying mutations, and other (customizable) information. This data frame can be saved as an object in the global environment and/or written to a file (tsv - see *write.mut.table*), and in either case serves as input for the *MixviR* functions `explore_mutations()` and `estimate_lineages()`.
+#' @return A data frame containing variants observed for each sample, positions of the underlying mutations, and other (customizable) information. This data frame can be saved as an object in the global environment and/or written to a file (see *write.mut.table*), and in either case serves as input for the *MixviR* functions `explore_mutations()` and `estimate_lineages()`.
 #' @importFrom magrittr %>%
 #' @export
 #' @examples
@@ -900,7 +900,7 @@ call_mutations <- function(sample.dir = NULL,
                            genetic.code.num = "1",
                            out.cols = c("SAMP_NAME", "CHR", "POS", "GENE", "ALT_ID", "AF", "DP"),
                            write.mut.table = FALSE,
-                           outfile.name = "sample_mutations.tsv",
+                           outfile.name = "sample_mutations.csv",
                            indel.format = "Fwd",
                            csv.infiles = FALSE
                     
@@ -1138,8 +1138,9 @@ call_mutations <- function(sample.dir = NULL,
   
   
   if (write.mut.table == TRUE) {
-    write.table(samp_mutations, file = outfile.name,
-                sep = "\t",
+    write.table(samp_mutations, 
+                file = outfile.name,
+                sep = ",",
                 row.names = FALSE,
                 quote = FALSE)
   }

@@ -1,4 +1,4 @@
-# MixviR_3.3.5
+# MixviR_3.5.0
 
 ## Summary
 
@@ -6,11 +6,12 @@ MixviR is a tool to help analyze, explore, and visualize high-throughput genomic
 
 ## Installation
 
-MixviR is currently available at https://github.com/mikesovic/MixviR and can be installed with...
+MixviR is available in R from CRAN with...
+install.packages("MixviR")
+
+It can also be optionally downloaded and installed from github (https://github.com/mikesovic/MixviR) with...
 devtools::install_github("mikesovic/MixviR/MixviR_X.Y.Z"), after replacing X.Y.Z with the current version.
 
-It has also recently been submitted to CRAN, and once available there, it will be able to be installed with...
-install.packages("MixviR")
 
 ## Usage
 
